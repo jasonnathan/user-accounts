@@ -6,6 +6,7 @@ import { Session } from 'meteor/session';
 
 //import templates
 import '/imports/ui/layouts/default.js';
+import '/imports/ui/components/login.js';
 
 /**
  * Setting up password reset trigger here, because the route should automatically go to the form if a token
