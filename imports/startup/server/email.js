@@ -6,6 +6,7 @@
  *     		to: 'a valid email address',
  *     		from: 'a valid email address. defaults to `User Accounts Support <jjnathanjr+support@gmail.com>`',
  *     		firstName: 'the name of the addressee for the email header',
+ *     		message: 'the message body',
  *     		subject: 'the subject header',
  *     		action: {
  *     			text: 'The name of the CTA link',
@@ -34,6 +35,7 @@ export default class Emailer {
 	 *     		from: 'a valid email address. defaults to `User Accounts Support <jjnathanjr+support@gmail.com>`',
 	 *     		firstName: 'the name of the addressee for the email header',
 	 *     		subject: 'the subject header',
+	 *     		message: 'the message body',
 	 *     		action: {
 	 *     			text: 'The name of the CTA link',
 	 *     			link: 'The link that the CTA leads to'

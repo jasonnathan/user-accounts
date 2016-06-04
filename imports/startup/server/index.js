@@ -1,2 +1,2 @@
-import '.fixtures.js';
-import '/imports/api/accounts/server';
+import './fixtures.js';
+import '/imports/startup/server';
