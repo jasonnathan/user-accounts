@@ -1,0 +1,48 @@
+<template name="signupForm">
+    <div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
+    {{#if isSuccess}}
+            <h2 class="text-center text-success">Congratulations</h2>
+            <p class="text-center">Please check your email for your verification link.</p>
+    {{else}}
+        {{#if isProcessing}}
+            <h2 class="text-center text-primary">Processing</h2>
+            <p class="text-center">Please wait a moment while we process your account.</p>
+            {{>centeredCircularLoading}}
+        {{else}}    
+            <h2 class="text-center text-primary">Welcome to User Accounts!</h2>
+            {{#if errorMessage}}
+                <p class="text-danger">{{errorMessage}}</p>
+            {{else}}
+             <p class="text-center grey-text">Create your password and we're all set to go!</p>
+            {{/if}}
+            <form method="post" id="signupForm">
+                <div class="form-group">
+                    <label for="newPassword">Email</label>
+                    <input placeholder="Enter an email address" type="email" id="registerEmail" class="form-control" name="registerEmail" required>
+                </div>   
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input placeholder="Enter a password" type="password" id="newPassword" class="form-control" name="newPassword" required pattern=".{8,}">
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm Password</label>
+                    <input placeholder="Enter your password again." type="password" id="confirmNewPassword" class="form-control" name="confirmNewPassword" required pattern=".{8,}">
+                </div>   
+                <div class="form-group">
+                    <label for="newPassword">Secret Word</label>
+                    <input placeholder="Enter your secret word" type="text" id="secretWord" class="form-control" name="secretWord" required>
+                </div>                       
+                <button type="submit" class="btn btn-default">Continue</button>
+            </form>
+            <hr>
+            <div class="row">            
+                <a class="col-xs-6 btn btn-link" href="{{pathFor 'signIn'}}">Sign in instead?</a>
+                <a class="col-xs-6 btn btn-link" href="{{pathFor 'forgetPassword'}}">Forgot Password</a>
+            </div>          
+        {{/if}}
+    {{/if}}
+    </div>        
+</template>
+
+
+<template name="resetpasswordForm"><h1 class="text-center">Reset Password Stub</h1></template>

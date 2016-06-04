@@ -1,0 +1,14 @@
+<template name="welcome">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
+                <h2 class="text-center text-success">You are now logged in</h2>
+                <p class="text-center">Here is your secret word!</p>
+                <blockquote>{{getSecret}}</blockquote>
+            </div>
+        </div>
+        <div class="row">
+        	<a class="btn btn-primary col-xs-12 text-center" href="#!" id="logoutBtn">Log Out</a>
+        </div>
+    </div>
+</template>
