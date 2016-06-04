@@ -96,13 +96,10 @@ Meteor.methods({
 
 
         Meteor.users.update(userId, {
-            $set: { "services.password.reset": tokenRecord },
             $push: { "services.email.verificationTokens": emailTokenRecord }
         });
 
         Meteor._ensure(user, "services", "email");
-        Meteor._ensure(user, "services", "password").reset = tokenRecord;
-
 
         // set to array if doesn't exist
         if (!user.services.email.verificationTokens) {
