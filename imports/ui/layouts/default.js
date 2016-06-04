@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Accounts } from 'meteor/accounts-base';
 import './default.html';
 
 /**
@@ -42,7 +43,9 @@ Template.default.onCreated(function() {
         }
 
         if (_et && !Meteor.userId()) {
-            FlowRouter.go('register', { token: _et });
+        	Accounts.verifyEmail(_et, function(err, result){
+        		FlowRouter.go('signIn');
+        	})            
             return true;
         }
     });

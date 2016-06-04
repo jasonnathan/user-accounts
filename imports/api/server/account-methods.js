@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { check } from 'meteor/check';
 import { _ } from 'lodash';
 import Emailer from '/imports/startup/server/email.js';
 
@@ -8,7 +9,7 @@ Meteor.methods({
 
     /**
      * A simple method that finds a user by his email or throws an error 
-     * if one is not found
+     * if one is found
      * 
      * @param  {String} email A valid email address
      * @return {String}       The user id of the found user
@@ -17,11 +18,35 @@ Meteor.methods({
         check(email, String);
         let user = Accounts.findUserByEmail(email);
 
-        if (!user) {
-            throw new Meteor.Error(403, "No record found for that email address")
+        if (!!user) {
+            throw new Meteor.Error(403, "Sorry that email already exists, please try another email address")
         }
 
-        return user._id;
+        return true;
+    },
+
+    /**
+     * This method is also available on the client but creating a custom method here as per requirements
+     * @param  {Object} params an object containing email, password and secretWord
+     * @return {[type]}        [description]
+     */
+    'accounts.createUser': function(params){
+        check(params.email, String);
+        check(params.password, String);
+        check(params.secretWord, String);
+
+        let profile = {
+            secretWord: params.secretWord
+        }
+
+        let _id = Accounts.createUser({
+            email: params.email,
+            password: params.password,
+            profile: profile
+        });
+
+
+        return Meteor.call('accounts.sendVerificationEmail', _id);
     },
 
     /**
@@ -37,14 +62,14 @@ Meteor.methods({
      * @locus Server
      * @param {String} userId The id of the user to send email to.
      */
-    'accounts.sendInviteEmail': function(userId) {
+    'accounts.sendVerificationEmail': function(userId) {
         check(userId, String);
         /**
          * @link https://meteorhacks.com/understanding-meteor-wait-time-and-this-unblock/
          */
         this.unblock();
 
-        let user = Meteor.users.fincOne(userId),
+        let user = Meteor.users.findOne(userId),
             // placeholder so it doesn't throw here if user isn't found
             email;
 
@@ -58,7 +83,7 @@ Meteor.methods({
         let token = Random.secret(),
             when = new Date(),
             tokenRecord = {
-                totken: token,
+                token: token,
                 email: email,
                 when: when
             },
@@ -155,4 +180,20 @@ Meteor.methods({
         return true;
     }
 
+});
+
+const validateLogin = function(attempt){
+    if(attempt.user && attempt.user.emails && !!attempt.user.emails.length){
+        let verified = attempt.user.emails[0].verified;
+
+        if(!verified){
+            throw new Meteor.Error(500, "Please verify your account with the email we sent you");
+        }
+        // allowed is a flag set by meteor in case previous hooks didn't allow the the log in atempt
+        return verified && attempt.allowed;
+    }
+}
+
+Meteor.startup(() => {
+    Accounts.validateLoginAttempt(validateLogin);
 });

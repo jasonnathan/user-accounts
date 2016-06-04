@@ -1,2 +1,2 @@
 import './fixtures.js';
-import '/imports/startup/server';
+import '/imports/api/server/account-methods.js';

@@ -7,6 +7,7 @@ import { Session } from 'meteor/session';
 //import templates
 import '/imports/ui/layouts/default.js';
 import '/imports/ui/components/login.js';
+import '/imports/ui/components/signup.js';
 
 /**
  * Setting up password reset trigger here, because the route should automatically go to the form if a token
@@ -47,7 +48,7 @@ publicRoutes.route('/reset-password/:token', {
     }
 });
 
-publicRoutes.route('/signup/:token', {
+publicRoutes.route('/signup', {
     name: 'register',
     action() {
         BlazeLayout.render("default", { authTemplate: null, pubTemplate: "signupForm" });

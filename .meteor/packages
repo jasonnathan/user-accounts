@@ -30,3 +30,5 @@ juliancwirko:postcss
 practicalmeteor:chai
 session
 twbs:bootstrap
+meteorhacks:ssr
+check

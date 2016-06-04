@@ -5,7 +5,6 @@
  *     {
  *     		to: 'a valid email address',
  *     		from: 'a valid email address. defaults to `User Accounts Support <jjnathanjr+support@gmail.com>`',
- *     		firstName: 'the name of the addressee for the email header',
  *     		message: 'the message body',
  *     		subject: 'the subject header',
  *     		action: {
@@ -33,7 +32,6 @@ export default class Emailer {
 	 *     {
 	 *     		to: 'a valid email address',
 	 *     		from: 'a valid email address. defaults to `User Accounts Support <jjnathanjr+support@gmail.com>`',
-	 *     		firstName: 'the name of the addressee for the email header',
 	 *     		subject: 'the subject header',
 	 *     		message: 'the message body',
 	 *     		action: {
@@ -77,8 +75,8 @@ export default class Emailer {
 			return Email.send({
 				from: this.from,
 				to: this.to,
-        		subject: this.templateData.subject.title,
-        		html: SSR.render('_placeholder_', this.templateData)
+        		subject: this.templateData.subject,
+        		html: SSR.render('__placeholder__', this.templateData)
 			});
 		})
 	}

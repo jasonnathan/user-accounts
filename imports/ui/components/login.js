@@ -16,7 +16,7 @@ Template.loginForm.helpers({
         return Template.instance().isProcessing.get();
     },
     errorMessage() {
-        let em = Session.get("isLoginError");
+        let em = Template.instance().errorMessage.get();
 
         return _.isString(em) ? em : null;
     }
@@ -52,7 +52,7 @@ Template.loginForm.events({
             Meteor.loginWithPassword(email, password, (err) => {
                 tmpl.isProcessing.set(false);
                 if (err) {
-                    return tmpl.errorMessage.set("Sorry, your password and email do not match");
+                    return tmpl.errorMessage.set(err.reason);
                 }
                 tmpl.errorMessage.set(false);
 
