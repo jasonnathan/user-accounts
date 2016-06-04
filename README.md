@@ -6,6 +6,7 @@ An example of how to customise Meteor Accounts without the need for 3rd party ac
 2. Clone this repository
 3. Run NPM install and then meteor
 
+
     curl https://install.meteor.com/ | sh
     git clone https://github.com/jasonnathan/user-accounts && cd user-accounts
     npm install
