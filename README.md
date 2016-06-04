@@ -28,6 +28,7 @@ An example of how to customise Meteor Accounts without the need for 3rd party ac
 
 
 *Notes for SMS verification Implementation*
+
 1. Create another environment for SMS gateway credentials
 2. Create another module like the Emailer module in `/imports/startup/server/Email.js` that sends out an SMS
 3. Create a server method in `/imports/api/account-methods.js` similar to `accounts.sendVerificationEmail` that generates and stores a token and then calls on the former method to send out the SMS.
