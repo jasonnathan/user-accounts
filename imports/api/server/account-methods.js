@@ -35,18 +35,23 @@ Meteor.methods({
         check(params.password, String);
         check(params.secretWord, String);
 
-        let profile = {
-            secretWord: params.secretWord
-        }
-
         let _id = Accounts.createUser({
             email: params.email,
-            password: params.password,
-            profile: profile
+            password: params.password
         });
 
+        Meteor.users.update(_id, {$set: {secretWord: params.secretWord}});
 
         return Meteor.call('accounts.sendVerificationEmail', _id);
+    },
+
+    'accounts.getSecret': function(){
+        if(!Meteor.userId())
+            throw new Meteor.Error(403, "You are not allowed to perform this action");
+
+        let u = Meteor.users.findOne(Meteor.userId());
+
+        return u.secretWord;
     },
 
     /**
@@ -109,7 +114,6 @@ Meteor.methods({
 
         let mailer = new Emailer({
             to: email,
-            firstName: user.profile.firstName,
             subject: 'Welcome to User Accounts',
             message: 'You have successfully registered as a new User in User Accounts.',
             action: {
