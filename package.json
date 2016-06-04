@@ -1,10 +1,37 @@
 {
   "name": "user-accounts",
-  "private": true,
+  "private": false,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "chimp-test": "chimp --ddp=http://localhost:3000 --mocha --path=tests",
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0"
+    "lodash": "^4.11.1",
+    "meteor-node-stubs": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz"
+  },
+  "version": "1.0.0",
+  "description": "An example of how to customise Meteor Accounts without the need for 3rd party accounts management",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {
+        "browsers": [
+          "last 2 versions"
+        ]
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jasonnathan/user-accounts.git"
+  },
+  "author": "Jason Nathan",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/jasonnathan/user-accounts#readme",
+  "devDependencies": {
+    "autoprefixer": "^6.3.6"
   }
 }
