@@ -9,6 +9,7 @@ import '/imports/ui/layouts/default.js';
 import '/imports/ui/components/login.js';
 import '/imports/ui/components/signup.js';
 import '/imports/ui/components/forgotPassword.js';
+import '/imports/ui/components/resetPassword.js';
 import '/imports/ui/components/dashboard.js';
 
 /**
