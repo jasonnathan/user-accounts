@@ -5,38 +5,40 @@
             <p class="text-center">Please wait a moment while we log you in.</p>
             {{>centeredCircularLoading}}
         {{else}}
-        <h2 class="text-center text-primary">Welcome to User Accounts!</h2> 
-        {{#if errorMessage}}
-            <p class="text-center text-danger">{{errorMessage}}</p>
-        {{else}}
-            <p class="text-center">Please sign in</p>
-        {{/if}}
-        <form method="post" id="loginForm">
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input 
-                    type="email" 
-                    name="email" 
-                    class="form-control" 
-                    oninvalid="this.setCustomValidity('This field cannot be blank and must be a valid Email Address')"
-                    oninput="setCustomValidity('')"                     
-                    placeholder="Enter your email address" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input 
-                    type="password" 
-                    name="password" 
-                    class="form-control" placeholder="Enter Your Password"  
-                    required>
-            </div>
-            <button type="submit" class="btn btn-default">Sign In</button>
-        </form>
-        <hr>
-        <div class="row">            
-            <a class="col-xs-6 btn btn-link" href="{{pathFor 'register'}}">Create an Account</a>
-            <a class="col-xs-6 btn btn-link" href="{{pathFor 'forgetPassword'}}">Forgot Password</a>
-        </div>        
+            <h2 class="text-center text-primary">Welcome to User Accounts!</h2>
+            <p class="text-center {{#if errorMessage}}text-danger{{/if}}">
+                {{#if errorMessage}}
+                    {{errorMessage}}
+                {{else}}
+                    Please sign in.
+                {{/if}}
+            </p>            
+            <form method="post" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        class="form-control" 
+                        oninvalid="this.setCustomValidity('This field cannot be blank and must be a valid Email Address')"
+                        oninput="setCustomValidity('')"                     
+                        placeholder="Enter your email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        class="form-control" placeholder="Enter Your Password"  
+                        required>
+                </div>
+                <button type="submit" class="btn btn-default">Sign In</button>
+            </form>
+            <hr>
+            <div class="row">            
+                <a class="col-xs-6 btn btn-link" href="{{pathFor 'register'}}">Create an Account</a>
+                <a class="col-xs-6 btn btn-link" href="{{pathFor 'forgetPassword'}}">Forgot Password</a>
+            </div>        
         {{/if}}
     </div>
 </template>
