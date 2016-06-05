@@ -27,20 +27,17 @@ Meteor.methods({
 
     /**
      * This method is also available on the client but creating a custom method here as per requirements
-     * @param  {Object} params an object containing email, password and secretWord
+     * @param  {Object} params an object containing email, password
      * @return {[type]}        [description]
      */
     'accounts.createUser': function(params){
         check(params.email, String);
-        check(params.password, String);
-        check(params.secretWord, String);
+        check(params.password, Object);
 
         let _id = Accounts.createUser({
             email: params.email,
             password: params.password
         });
-
-        Meteor.users.update(_id, {$set: {secretWord: params.secretWord}});
 
         return Meteor.call('accounts.sendVerificationEmail', _id);
     },
