@@ -8,6 +8,7 @@ import './signup.html';
 Template.signupForm.onCreated(function() {
     this.isProcessing = new ReactiveVar();
     this.errorMessage = new ReactiveVar();
+    // this should be a Session variable so the registration form isn't displayed after the first successful submission
     this.isSuccess = new ReactiveVar();
     this.verifyForm = (params, cb) => {
         // 'email', 'password', 'confirmPassword', 'secretWord'
@@ -15,6 +16,8 @@ Template.signupForm.onCreated(function() {
         if (!params.email || !params.email.trim())
             return cb("A valid email is required");
 
+        // this is not an ideal way to validate fields, as a server side method is called whether or not
+        // the email field was changed. But is okay to do because this method is only fired on submit
         Meteor.call('accounts.findByEmail', params.email, (err, res) => {
             if (err) {
                 return cb(err)
@@ -29,22 +32,18 @@ Template.signupForm.onCreated(function() {
             }
 
             return cb(null, true);
-
         });
     }
 });
 
 Template.signupForm.helpers({
     isProcessing() {
-        return Template.instance().isProcessing.get();
-    },
+        return Template.instance().isProcessing.get(); },
+    isSuccess() {
+        return Template.instance().isSuccess.get(); },
     errorMessage() {
         let em = Template.instance().errorMessage.get();
-
         return _.isString(em) ? em : null;
-    },
-    isSuccess() {
-        return Template.instance().isSuccess.get();
     }
 });
 
@@ -60,22 +59,22 @@ Template.signupForm.events({
         tmpl.isProcessing.set(true);
         tmpl.errorMessage.set(null);
 
-        tmpl.verifyForm(params, (err, res) => {    
+        tmpl.verifyForm(params, (err, res) => {
             if (err) {
                 tmpl.isProcessing.set(false);
                 return tmpl.errorMessage.set(err.reason);
-            }            
+            }
 
             // Meteor hashes the password with SHA256 before it is sent over the wire
             params.password = Accounts._hashPassword(params.password);
-            
+
             // we don't need the confirmPassword field any more
             delete params.confirmPassword;
 
             /**
              * Accounts.createUser does exactly the same thing (and more). Creating a custom method
              * here as an example of how this can be done without having to use Account hooks etc.
-             * The server method in turn send the verification email, you can also add other custom
+             * The server method in turn sends the verification email, you can also add other custom
              * functionality to it.
              * 
              * @param  {Method} 'accounts.createUser' A server side method wired to create an account

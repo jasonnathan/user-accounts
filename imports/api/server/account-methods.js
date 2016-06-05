@@ -44,14 +44,12 @@ Meteor.methods({
 
     /**
      * Send the user an email informing them that their account was created, with
-     * a link that when opened both marks their email as verified and forces them
-     * to choose their password.  Also adding the token for email verification because 
-     * it makes sense to do both in this case.
+     * a link that when opened both marks their email as verified.
      *
      * See adaptation from [(accounts-password/password_server.js, line 595)]
      * {@link https://github.com/meteor/meteor/blob/master/packages/accounts-password/password_server.js#L595}.
      *
-     * @summary Send an email with a link the user can use to set their initial password.
+     * @summary Send an email with a link to verify his/her email
      * @locus Server
      * @param {String} userId The id of the user to send email to.
      */
