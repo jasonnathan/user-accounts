@@ -45,15 +45,6 @@ Meteor.methods({
         return Meteor.call('accounts.sendVerificationEmail', _id);
     },
 
-    'accounts.getSecret': function(){
-        if(!Meteor.userId())
-            throw new Meteor.Error(403, "You are not allowed to perform this action");
-
-        let u = Meteor.users.findOne(Meteor.userId());
-
-        return u.secretWord;
-    },
-
     /**
      * Send the user an email informing them that their account was created, with
      * a link that when opened both marks their email as verified and forces them

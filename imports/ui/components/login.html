@@ -1,11 +1,11 @@
 <template name="loginForm">
-    <div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
+    <div class="col-xs-12 col-md-6 col-lg-4 col-md-offset-3 col-lg-offset-4">
         {{#if isProcessing}}
             <h2 class="text-center text-primary">Logging in...</h2>
             <p class="text-center">Please wait a moment while we log you in.</p>
             {{>centeredCircularLoading}}
         {{else}}
-        <h2 class="text-center text-primary">Welcome to User Accounts</h2> 
+        <h2 class="text-center text-primary">Welcome to User Accounts!</h2> 
         {{#if errorMessage}}
             <p class="text-center text-danger">{{errorMessage}}</p>
         {{else}}
@@ -14,11 +14,21 @@
         <form method="post" id="loginForm">
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" name="email" class="form-control" required placeholder="Enter your email address">
+                <input 
+                    type="email" 
+                    name="email" 
+                    class="form-control" 
+                    oninvalid="this.setCustomValidity('This field cannot be blank and must be a valid Email Address')"
+                    oninput="setCustomValidity('')"                     
+                    placeholder="Enter your email address" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input name="password" type="password" class="form-control" required placeholder="Enter Your Password">
+                <input 
+                    type="password" 
+                    name="password" 
+                    class="form-control" placeholder="Enter Your Password"  
+                    required>
             </div>
             <button type="submit" class="btn btn-default">Sign In</button>
         </form>

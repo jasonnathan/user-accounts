@@ -1,5 +1,6 @@
 /**
- * An example of unit testing on a modular level. These are not Acceptance tests. To run tests here is a different command
+ * Please ensure the application is run at least once so all fixtures get to run at least once. 
+ * There is no stubbing here but you should add more tests as you continue to customise the package
  */
 
 /* beautify ignore:start */
@@ -12,16 +13,16 @@ import './account-methods.js';
 let expect = chai.expect;
 
 describe("User Accounts", function() {
-    describe("Forgot Password", function() {
+    describe("Unique User", function() {
         it("should throw an error if a given email is not a string", function() {
             expect(function() {
-                Meteor.call('accounts.checkEmailExists', 12345);
-            }).to.throw();
+                Meteor.call('accounts.findByEmail', 12345);
+            }).to.throw();           
         });
-        it("should throw an error if no user was found for a given email address", function() {
+        it("should throw an error if a user was found for a given email address", function() {
             expect(function() {
-                Meteor.call('accounts.checkEmailExists', "someRandomEmail@random.com");
+                Meteor.call('accounts.findByEmail', process.env.DEFAULT_EMAIL);
             }).to.throw();
         });
-    })
+    });
 });
