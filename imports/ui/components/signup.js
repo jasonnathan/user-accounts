@@ -42,9 +42,7 @@ Template.signupForm.helpers({
     isSuccess() {
         return Template.instance().isSuccess.get(); },
     errorMessage() {
-        let em = Template.instance().errorMessage.get();
-        return _.isString(em) ? em : null;
-    }
+        return Template.instance().errorMessage.get(); }
 });
 
 Template.signupForm.events({
@@ -65,7 +63,8 @@ Template.signupForm.events({
                 return tmpl.errorMessage.set(err.reason);
             }
 
-            // Meteor hashes the password with SHA256 before it is sent over the wire
+            // Meteor hashes the password with SHA256 before it is sent over the wire,
+            // but HTTPS is still a better way to go.
             params.password = Accounts._hashPassword(params.password);
 
             // we don't need the confirmPassword field any more

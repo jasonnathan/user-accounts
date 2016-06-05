@@ -11,24 +11,30 @@ blaze-html-templates    # Compile .html files into Meteor Blaze views
 reactive-var            # Reactive variable for tracker
 jquery                  # Helpful client-side library
 tracker                 # Meteor's client-side reactive programming library
+session					# Uses Meteor's reactivity for App Session Management
 
+#Accounts
+accounts-password
+
+# Routing packages 
+kadira:flow-router
+kadira:blaze-layout
+arillo:flow-router-helpers
+
+
+# Utility packages
+random
+check
+
+# UI/CSS/Post Processing packages
+less
+juliancwirko:postcss
 standard-minifier-js    # JS minifier run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
-
-autopublish             # Publish all data to the clients (for prototyping)
-insecure                # Allow all DB writes from clients (for prototyping)
-accounts-password
-kadira:flow-router
-xolvio:backdoor
-kadira:blaze-layout
-arillo:flow-router-helpers
-random
-ddp-rate-limiter
-less
-juliancwirko:postcss
-practicalmeteor:chai
-session
 twbs:bootstrap
 meteorhacks:ssr
-check
+
+# Testing Packages
+practicalmeteor:chai
+xolvio:backdoor

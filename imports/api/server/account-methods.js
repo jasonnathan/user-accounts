@@ -12,7 +12,6 @@ Meteor.methods({
      * if one is found
      * 
      * @param  {String} email A valid email address
-     * @return {String}       The user id of the found user
      */
     'accounts.findByEmail': function(email) {
         check(email, String);
@@ -26,14 +25,34 @@ Meteor.methods({
     },
 
     /**
-     * This method is also available on the client but creating a custom method here as per requirements
+     * Almost identical to the one above, except that it returns a user id if an email is found
+     * and throws an error if there isn't an account associated with the email
+     *
+     * @param  {String} email A valid email address
+     * @return {String}       The user id of the found user
+     */
+    'accounts.checkEmailExists': function(email){
+        check(email, String);
+        let user = Accounts.findUserByEmail(email);
+
+        if (!user) {
+            throw new Meteor.Error(403, "We couldn't find an account associated with that email address")
+        }
+
+        return user._id;
+    },
+
+    /**
+     * This method is also available on the client but creating a custom method here as per requirements.
+     * An example of sending out a customised email is called in this method
+     * 
      * @param  {Object} params an object containing email, password
-     * @return {[type]}        [description]
      */
     'accounts.createUser': function(params){
         check(params.email, String);
         check(params.password, Object);
 
+        // This method allows hashed passwords, it then bcrypts the hash before it goes into the DB
         let _id = Accounts.createUser({
             email: params.email,
             password: params.password
@@ -44,7 +63,7 @@ Meteor.methods({
 
     /**
      * Send the user an email informing them that their account was created, with
-     * a link that when opened both marks their email as verified.
+     * a link that when opened marks their email as verified.
      *
      * See adaptation from [(accounts-password/password_server.js, line 595)]
      * {@link https://github.com/meteor/meteor/blob/master/packages/accounts-password/password_server.js#L595}.
@@ -154,7 +173,6 @@ Meteor.methods({
         // use custom emailer class
         let mailer = new Emailer({
             to: email,
-            firstName: user.profile.firstName,
             subject: 'Password Reset Request',
             message: 'We have received a request to reset your password. If you haven\'t requested for one, please ignore this email, otherwise please click the button to reset your password.',
             action: {
@@ -169,6 +187,12 @@ Meteor.methods({
 
 });
 
+/**
+ * In the nomral flow of Meteor Accounts, an unverified email is not allowed to pass a log in attempt 
+ * We can mimick the same functionality with validateLoginAttempt
+ * @param  {Object} attempt The attempt object containing the logged in user if there is one
+ * @return {Boolean}        A flag to allow the log in or not
+ */
 const validateLogin = function(attempt){
     if(attempt.user && attempt.user.emails && !!attempt.user.emails.length){
         let verified = attempt.user.emails[0].verified;
@@ -181,6 +205,9 @@ const validateLogin = function(attempt){
     }
 }
 
+/**
+ * Attach the hook
+ */
 Meteor.startup(() => {
     Accounts.validateLoginAttempt(validateLogin);
 });
